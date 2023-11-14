@@ -76,7 +76,7 @@
         >
             <div class="relative">
                 <img
-                    src="https://pb_anna.myapollo.it/api/files/portfolio/{image.id}/{image.file}?thumb=200x200f"
+                    src="https://pb_anna.myapollo.it/api/files/portfolio/{image.id}/{image.file}?thumb=500x500f"
                     class={image.loading
                         ? "opacity-0 z-10 absolute inset-0 transition-all duration-500 ease-in-out"
                         : "aspect-square object-cover opacity-100 transition-all duration-500 ease-in-out  "}
