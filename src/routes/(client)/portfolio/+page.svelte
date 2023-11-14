@@ -14,7 +14,10 @@
         });
         images = records;
 
-        console.log(images);
+        for (let index = 0; index < images.length; index++) {
+            images[index].loading = true;
+        }
+
         const options = {
             Toolbar: {
                 display: {
@@ -57,18 +60,41 @@
 />
 
 <h1 class="text-center font-medium text-4xl mt-8">Portfolio</h1>
-<div class="grid grid-cols-1 gap-1 md:grid-cols-3 mt-4 lg:mt-8 mx-4">
+<div class="grid grid-cols-3 gap-1 mt-4 lg:mt-8 mx-4">
+    {#if images.length === 0}
+        <div class="col-span-3">
+            <div class="w-full h-40 flex items-center justify-center">
+                <span class="loading loading-infinity loading-lg mx-auto" />
+            </div>
+        </div>
+    {/if}
     {#each images as image}
         <a
             href="https://pb_anna.myapollo.it/api/files/portfolio/{image.id}/{image.file}"
             data-fancybox="gallery"
             data-download-src="/api/download?{image.id}/{image.file}"
         >
-            <img
-                src="https://pb_anna.myapollo.it/api/files/portfolio/{image.id}/{image.file}?thumb=200x200"
-                class="aspect-square object-cover"
-                alt=""
-            />
+            <div class="relative">
+                <img
+                    src="https://pb_anna.myapollo.it/api/files/portfolio/{image.id}/{image.file}?thumb=200x200f"
+                    class={image.loading
+                        ? "opacity-0 z-10 absolute inset-0 transition-all duration-500 ease-in-out"
+                        : "aspect-square object-cover opacity-100 transition-all duration-500 ease-in-out  "}
+                    alt=""
+                    on:load={() => {
+                        image.loading = false;
+                    }}
+                />
+                <div class={image.loading ? "block" : "hidden"}>
+                    <div
+                        class="w-full h-32 border rounded-lg border-black flex items-center justify-center"
+                    >
+                        <span
+                            class="loading loading-infinity loading-lg mx-auto"
+                        />
+                    </div>
+                </div>
+            </div>
         </a>
     {/each}
 </div>
