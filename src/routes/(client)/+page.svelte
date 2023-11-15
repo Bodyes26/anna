@@ -19,6 +19,9 @@
             sort: "-created",
         });
         images = records;
+        for (let index = 0; index < images.length; index++) {
+            images[index].loading = true;
+        }
         let thanks = $page.url.search.slice(1).split("=")[1];
         if (thanks === "1") {
             showToastRingrazia = true;
@@ -69,7 +72,7 @@
 <img
     src="/images/homepage.png"
     alt="Anna's Art logo"
-    class="w-full md:w-3/5 mx-auto"
+    class="w-full md:w-3/5 mx-auto mt-12"
 />
 <div>
     <div class="quote-wrapper">
@@ -80,7 +83,14 @@
         <div class="quote-author">~ Vincent Van Gogh</div>
     </div>
     <h1 class="text-center text-3xl font-bold mt-8">Ultimi lavori</h1>
-    <div class="grid grid-cols-1 gap-2 md:grid-cols-3 mt-4 lg:mt-8 mx-4">
+    <div class="grid gap-2 grid-cols-3 mt-4 lg:mt-8 mx-4">
+        {#if images.length === 0}
+            <div class="col-span-3">
+                <div class="w-full h-40 flex items-center justify-center">
+                    <span class="loading loading-infinity loading-lg mx-auto" />
+                </div>
+            </div>
+        {/if}
         {#each images as image, i}
             {#if i < 6}
                 <a
@@ -88,11 +98,27 @@
                     data-fancybox="gallery"
                     data-download-src="https://pb_anna.myapollo.it/api/files/portfolio/{image.id}/{image.file}?download=1"
                 >
-                    <img
-                        src="https://pb_anna.myapollo.it/api/files/portfolio/{image.id}/{image.file}?thumb=500x500f"
-                        class="aspect-square object-cover"
-                        alt=""
-                    />
+                    <div class="relative">
+                        <img
+                            src="https://pb_anna.myapollo.it/api/files/portfolio/{image.id}/{image.file}?thumb=500x500f"
+                            class={image.loading
+                                ? "opacity-0 z-10 absolute inset-0 transition-all duration-500 ease-in-out"
+                                : "aspect-square object-cover opacity-100 transition-all duration-500 ease-in-out"}
+                            alt=""
+                            on:load={() => {
+                                image.loading = false;
+                            }}
+                        />
+                        <div class={image.loading ? "block" : "hidden"}>
+                            <div
+                                class="w-full h-32 border rounded-lg border-black flex items-center justify-center"
+                            >
+                                <span
+                                    class="loading loading-infinity loading-lg mx-auto"
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </a>
             {/if}
         {/each}
