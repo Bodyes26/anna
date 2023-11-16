@@ -1,5 +1,6 @@
 <script>
     import "../../app.css";
+    let background;
 </script>
 
 <div class="navbar bg-base-100 lg:px-8 pl-4 pr-8 pt-4">
@@ -47,7 +48,21 @@
 
 <footer class="footer footer-center p-10 mt-12">
     <div>
-        <img src="images/logo.png" alt="logo" class="w-20 rounded-lg" />
+        <div
+            class="w-20 h-fit rounded-lg"
+            style="background-image: url('/images/logo_smol.png'); background-size: cover; background-position: center;"
+            bind:this={background}
+        >
+            <img
+                src="images/logo.png"
+                alt="logo"
+                class=" rounded-lg"
+                on:load={() => {
+                    background.style.backgroundImage = "none";
+                }}
+            />
+        </div>
+
         <p class="font-bold">
             Anna.rt <br />Making art for passion
         </p>

@@ -9,6 +9,7 @@
     import "@fancyapps/ui/dist/fancybox/fancybox.css";
     let images = [],
         showToastRingrazia,
+        background,
         websiteTitle =
             "Anna.rt | Arte su Tela e Biglietti di Auguri Fatti a Mano",
         websiteDescription =
@@ -69,11 +70,20 @@
         imageAlt: "Anna.rt logo",
     }}
 />
-<img
-    src="/images/homepage.png"
-    alt="Anna's Art logo"
-    class="w-full md:w-3/5 mx-auto mt-12"
-/>
+<div
+    class="w-full mx-auto mt-12 md:w-3/5 h-fit"
+    style="background-image: url('/images/homepage_smol.png'); background-size: cover; background-position: center;"
+    bind:this={background}
+>
+    <img
+        src="/images/homepage.png"
+        alt="Anna's Art logo"
+        class="w-full"
+        on:load={() => {
+            background.style.backgroundImage = "none";
+        }}
+    />
+</div>
 <div>
     <div class="quote-wrapper">
         <div class="quote">
